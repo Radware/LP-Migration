@@ -1,0 +1,128 @@
+{% extends "layout.html" %}
+{% block content %}
+<br><br><box_stl><b>WAN Links Section</b></box_stl><br><br><br>
+<form id="all_isps" name="all_isps" action="page2" method="POST">
+    The following ISPs in your LP configuration have different names.
+    Please choose a name for each ISP.
+    {% for wl in unequal_wls_lst %}
+        <div>ISP{{ wl.id }} IP: {{ wl.ip }}, Names:
+            <select id="isp_name{{ wl.id }}" onchange="myFunction10()" required>
+                <option value="">Please Select...</option>
+                {% for wl_name in wl.wl_names %}
+                    <option value="{{ wl_name }}">{{ wl_name }}</option>
+                {% endfor %}
+                <option value="new_name">New Name ---></option>
+                {% for wl_name in wl.wl_names %}
+                    {% if loop.last %}
+                        <input type="hidden" id="wls_count{{ wl.id }}" value="{{ loop.index }}">
+                    {% endif %}
+                {% endfor %}
+            </select>
+            <input type="text" id="new_isp_name{{ wl.id }}" name="new_isp{{ wl.id }}_name" title="An alphanumeric string.&#013;Special characters are not allowed (except a dot, a hyphen or an underscore).&#013;A white space is not allowed." placeholder="New ISP{{ wl.id }} Name" style="display:none;">
+            <button onclick="myFunction10()" id="submit_isp{{ wl.id }}" style="display:none;">Submit ISP{{ wl.id }}</button>
+        </div>
+        <!--Name: <input type="text" id="isp_name{{ wl.id }}"><br>-->
+        <input type="hidden" id="isp_ip{{ wl.id }}" value="{{ wl.ip }}">
+        {% if loop.last %}
+            <input type="hidden" id="isps_count" value="{{ loop.index }}">
+        {% endif %}
+    {% endfor %}
+
+<script>
+var new_isps = [];
+var isp_n = 0;
+function myFunction10() {
+    isp_n++;
+    //console.log(isp_n);
+    var ispSelect = document.getElementById('isp_name' + isp_n);
+    var ispSelect_len = ispSelect.length;
+    var new_isps_len = new_isps.length;
+    var isp_ip = document.getElementById("isp_ip" + isp_n).value;
+    var isp_name = document.getElementById("isp_name" + isp_n).value;
+    //var new_isp_name = document.getElementById("new_isp_name" + isp_n).value;
+    var isp_ip_and_name = isp_ip + "&" + isp_name;
+    //var isp_ip_and_new_name = isp_ip + "&" + new_isp_name;
+    // document.getElementById("zzz").value = z;
+    // var y = "asd"
+    //new_isps.push(isp_ip_and_name);
+    //document.getElementById("xxx").innerHTML = new_isps;
+    //document.getElementById('new_isps').value = new_isps;
+    //if(isp_name == '') {
+    //    alert('Please select an ISP name.');
+    //    isp_n--;
+    //    return false;
+    console.log(isp_name);
+    if(isp_name != 'new_name') {
+        new_isps.push(isp_ip_and_name);
+        document.getElementById("xxx").innerHTML = new_isps;
+        document.getElementById('new_isps').value = new_isps;
+        var new_isps_len = new_isps.length;
+//    } else if( ispSelect.selectedIndex == ispSelect_len - 1 ) {
+    } else if(isp_name == 'new_name') {
+        document.getElementById('new_isp_name' + isp_n).style.display = 'inline';
+        document.getElementById('submit_isp' + isp_n).style.display = 'inline';
+        document.getElementById("submit_isp" + isp_n).onclick = function() {myFunction20()};
+        function myFunction20() {
+            document.getElementById('new_isp_name' + isp_n).required = true;
+            document.getElementById('new_isp_name' + isp_n).pattern = "^[a-zA-Z0-9._-]*$";
+            var new_isp_name = document.getElementById("new_isp_name" + isp_n).value;
+            var re = new RegExp("^[a-zA-Z0-9._-]*$");
+            if (new_isp_name != "" && re.test(new_isp_name)) {
+                var isp_ip_and_new_name = isp_ip + "&" + new_isp_name;
+                new_isps.push(isp_ip_and_new_name);
+                document.getElementById("xxx").innerHTML = new_isps;
+                document.getElementById('new_isps').value = new_isps;
+            }
+        }
+    }
+}
+</script>
+
+<script>
+function newIspsCheck() {
+    var new_isps_len_chk = new_isps.length;
+    var isps_count = document.getElementById("isps_count").value;
+    var remaining_isps = isps_count - new_isps_len_chk;
+    if(new_isps_len_chk != isps_count){
+        alert('You have selected ' + new_isps_len_chk + ' ISPs.\nPlease select ' + remaining_isps + ' more ISPs.');
+        return false;
+    }
+}
+</script>
+
+<script>
+function new_isp_name() {
+    var isps_count2 = document.getElementById("isps_count").value;
+    //var wls_numbers = []
+    var isps_numbers = []
+   // for (var i = 1; i <= parseInt(wls_count); i++) {
+    //    wls_numbers.push(i)
+   // }
+    for (var i = 1; i <= parseInt(isps_count2); i++) {
+        isps_numbers.push(i)
+    }
+    //console.log(numbers);
+    //numbers_len = numbers.length;
+    //for (var i = 0; i < numbers.length; i++) {
+    //  console.log(numbers[i]);
+    //}
+    //console.log(wls_count);
+    //console.log(parseInt(wls_count) + 1);
+    //for (var i = 0; i < isps_numbers.length; i++) {
+        //console.log(isps_numbers[i]);
+    var ispSelect = document.getElementById('isp_name');
+    var ispSelect_len = ispSelect.length;
+    if( ispSelect.selectedIndex == ispSelect_len - 1 ) {
+        document.getElementById('new_isp_name').style.display = 'inline';
+    }
+}
+</script>
+
+<p id="xxx"></p>
+
+<form>
+    <input type="hidden" id="new_isps" name="new_isps" value="">
+    <input type="submit" value="Submit All">
+</form>
+</form>
+{% endblock %}

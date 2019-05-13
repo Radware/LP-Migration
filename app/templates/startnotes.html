@@ -1,0 +1,123 @@
+{% extends "layout.html" %}
+{% block content %}
+<b><font color="red">Important Note:</font></b><br>
+This script creates a configuration valid for the following Alteon versions:<br>
+1. AlteonOS 30.5.5.0 or newer.<br>
+2. AlteonOS 31.0.2.0 or newer.<br><br>
+
+<script src="jquery-1.11.2.min.js"></script>
+<script src="validate_file.js"></script>
+
+<script>
+function validateForm() {
+    var x = document.forms["alteon_file"]["user_output_file"].value;
+    var x2 = document.forms["alteon_file"]["vlan_id"].value;
+    var x3 = document.forms["alteon_file"]["ingress_ports"].value;
+    var x4 = document.forms["alteon_file"]["egress_ports"].value;
+    if (x == "") {
+        alert("File name must not be empty.");
+        return false;
+    } if (x2 == "") {
+        alert("VLAN ID must not be empty.");
+        return false;
+    } else if (x2 == "any") {
+        ;
+    } else if (!(x2 >= 0 && x2 < 4090)) {
+        alert("VLAN ID must be between 1 and 4090.");
+        return false;
+    } if (x3 == "") {
+        alert("Ingress ports field must not be empty.");
+        return false;
+    } if (x4 == "") {
+        alert("Egress ports field must not be empty.");
+        return false;
+    //} else if (!(isNaN(x3)) && x3.includes(",") == "true") {
+    //    ;
+    //} else if (isNaN(x3)) {
+    //    alert("Ingress ports field must contain only number.");
+    //    return false;
+    }
+}
+</script>
+
+<script type="text/javascript">
+function hc() {
+    var s = document.getElementById('hc_types');
+    //var hc_fqdns1 = document.getElementById('f');
+    if( s.selectedIndex == 0 || s.selectedIndex == 1 || s.selectedIndex == 2 ) {
+        //document.getElementById('fqdn1').style.display = 'none';
+        //document.getElementById('pfqdn1').style.display = 'none';
+        //document.getElementById('fqdn2').style.display = 'none';
+        //document.getElementById('pfqdn2').style.display = 'none';
+        //document.getElementById('dns1').style.display = 'none';
+        //document.getElementById('pdns1').style.display = 'none';
+        //document.getElementById('dns2').style.display = 'none';
+        //document.getElementById('pdns2').style.display = 'none';
+        document.getElementById('hc_params').style.display = 'none';
+    } if( s.selectedIndex == 3 ) {
+        //document.getElementById('fqdn1').style.display = 'inline';
+        //document.getElementById('pfqdn1').style.display = 'inline';
+        //document.getElementById('fqdn2').style.display = 'inline';
+        //document.getElementById('pfqdn2').style.display = 'inline';
+        //document.getElementById('dns1').style.display = 'inline';
+        //document.getElementById('pdns1').style.display = 'inline';
+        //document.getElementById('dns2').style.display = 'inline';
+        //document.getElementById('pdns2').style.display = 'inline';
+        document.getElementById('hc_params').style.display = 'inline';
+    //} if( document.getElementById('fqdn1').style.display = 'inline' ); {
+    //    if( document.forms["alteon_file"]["fqdn1"].value == "" ) {
+    //        alert("FQDN1 must not be empty.");
+    //        return false;
+    //    }
+    }
+}
+</script>
+
+{% block body %}
+<form name="alteon_file" action="page1" onsubmit="return validateForm()" method="POST">
+    <div>
+        <br><br><box_stl><b>General Configuration Section</b></box_stl><br><br><br>
+        This script will write the Alteon configuration to a file.
+        Please choose a file name: <input type="text" placeholder="Alteon configuration file name" size="30" id="user_output_file" class="user_output_file" name="user_output_file" title="Alteon configuration file name" required>
+        <button id="validateFileBtn" type="button">Validate File Name</button>
+        {% if error %}
+            <font color="red"><strong>Error:</strong></font> {{ error }}
+        {% endif %}
+        <br>Please choose ingress (LAN facing) VLAN ID (type "0" for any VLAN ID): <input type="number" name="vlan_id" style="width:200px;" required min="0" max="4090" placeholder="Ingress VLAN ID" title="Ingress VLAN ID"><br>
+        Please choose ingress port(s), comma separated, no white spaces: <input type="text" size="60" name="ingress_ports" pattern="^(([1-9]|1[0-9]|2[0-6]),)*([1-9]|1[0-9]|2[0-6])$" placeholder="Ingress port(s), comma separated, no white spaces" title="Ingress ports field must contain numbers from 1 to 26, separated by commas, no white spaces" required><br>
+        Please choose egress port(s), comma separated, no white spaces: <input type="text" size="60" name="egress_ports" pattern="^(([1-9]|1[0-9]|2[0-6]),)*([1-9]|1[0-9]|2[0-6])$" placeholder="Egress port(s), comma separated, no white spaces" title="Egress ports field must contain numbers from 1 to 26, separated by commans, no white spaces" required><br>
+        <br><br><br><box_stl><b>Health Checks Section</b></box_stl><br><br><br>
+        This script is <font color="red"><b>NOT</b></font> migrating the health checks configuration of the LP.<br>
+        It creates a general health checks configuration common for most LP deployments.<br>
+        It uses DNS health checks with Google primary DNS server (8.8.8.8) and Level3 primary DNS server (209.244.0.3).<br>
+        The health checks query these DNS servers for www.cnn.com and www.yahoo.com.<br>
+        A WAN link real server will fail only if <font color="red"><b>ALL</b></font> of these health checks are failing.<br><br>
+
+        Please choose one of the following from the below drop-down list:<br>
+        1.) Choose '<b>Script's Predefined Health Checks</b>' if you want to use the above health check configuration.<br>
+        2.) Choose '<b>I Will Configure the Health Checks Manually</b>' if you don't want to use the above health check configuration, and create your own HC configuration.<br>
+        3.) Choose '<b>Health Checks Setup</b>' if you want to go to the health check creation setup.<br><br>
+
+        If you choose '<b>I Will Configure the Health Checks Manually</b>', the script will use ICMP health check on each WAN link real server and you will have to either:<br>
+        1.) Manually create your own health check configuraiton, or:<br>
+        2.) Manually migrate the health check configuration from your original LP configuration.<br><br>
+
+        Please select health checks configuration:
+
+        <select name="hc_types" id="hc_types" onchange="hc()" required>
+            <option value="">Please Select...</option>
+            <option value="y" name="yes">Script's Predefined Health Checks</option>
+            <option value="n" name="no">I Will Configure the Health Checks Manually</option>
+            <option value="Setup" name="setup">Health Checks Setup</option>
+        </select><br>
+        <div id="hc_params" style="display:none;">
+            FQDN1: <input type="text" id="fqdn1" name="fqdn1" value="www.cnn.com" placeholder="FQDN1" pattern="(?=^.{4,253}$)(^((?!-)[a-zA-Z0-9-]{1,63}(?<!-)\.)+[a-zA-Z]{2,63}$)" title="A valid FQDN" required>
+            FQDN2: <input type="text" id="fqdn2" name="fqdn2" value="www.yahoo.com" placeholder="FQDN2" pattern="(?=^.{4,253}$)(^((?!-)[a-zA-Z0-9-]{1,63}(?<!-)\.)+[a-zA-Z]{2,63}$)" title="a valid FQDN" required>
+            DNS1: <input type="text" id="dns1" name="dns1" value="8.8.8.8" placeholder="DNS1" pattern="^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$" title="A valid IPv4 address" required>
+            DNS2: <input type="text" id="dns2" name="dns2" value="209.244.0.3" placeholder="DNS2" pattern="^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$" title="A valid IPv4 address" required>
+        </div>
+        <br><input type="submit" value="Submit">
+    </div>
+</form>
+{% endblock %}
+{% endblock %}

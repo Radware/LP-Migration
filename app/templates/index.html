@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+{% block content %}
+<form name "getfile2" action="getfile" method="POST" enctype="multipart/form-data">
+    LinkProof 6.12/6.13 configuration file: <input type="file" name="myfile" required><br>
+    <input type="submit" value="Submit" onsubmit="return validateForm_file()">
+</form>
+
+<script>
+function validateForm_file() {
+    var x = document.forms["getfile2"]["myfile"].value;
+    if (x == "") {
+        alert("You must choose a file.");
+        return false;
+    }
+}
+</script>
+{% endblock %}

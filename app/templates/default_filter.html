@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+{% block content %}
+    <br><br><box_stl><b>Default Filter Section</b></box_stl><br><br><br>
+    <form name="new_filter" action="page4" method="POST">
+        <div>
+            This script will configure filter 2048 as a default filter.<br>
+            It'll classify any source IP, any destination IP and any protocol.<br>
+            Please choose a WAN link group for the default filter:
+            <select id="default_group" name="default_group" required>
+                <option value="">Please Select...</option>
+                {% for default_group in default_group_lst %}
+                    <option value="{{ default_group }}">{{ default_group }}</option>
+                {% endfor %}
+            </select>
+        </div>
+    <input type="submit" value="Submit">
+    </form>
+{% endblock %}
+
+<script>
+function defaultFlitFunction() {
+    var default_group = document.getElementById("default_group").value;
+    if(default_group == ''){
+        alert('Please select a group name.');
+        return false;
+    }
+}
+</script>

@@ -1,0 +1,11 @@
+{% extends "layout.html" %}
+{% block content %}
+<br><br><box_stl><b>Script Completed</b></box_stl><br><br><br>
+The following files have been created:<br>
+1.) Alteon configuration file: <b>{{ user_output_file }}_config</b><br>
+2.) Script logs file: <b>{{ user_output_file }}_logs</b><br>
+<font color="red"><b>Please review these files before importing the configuration to the Alteon.</b></font>
+<form name="download" action="{{ user_output_file }}_files.tar.gz" method="POST">
+    <input type="submit" value="Download All Files">
+</form>
+{% endblock %}
