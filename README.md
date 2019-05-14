@@ -4,7 +4,7 @@
 - [Description](#description )
 - [How To Use](#how-to-use )
   * [Using Docker container](#using-docker-container)
-  * [Running derectly on a server](#running-derectly-on-a-server)
+  * [Running directly on a server](#running-directly-on-a-server)
 
 ## Description ##
 The following script is used to migrate Linkproof Versions 6.12 or 6.13 configuration to Alteon configuration.
@@ -23,7 +23,7 @@ For example :
 ```
 Then access the WebUI using the IP and port of the server (in this example port 8080)
 
-### Running derectly on a server ###
+### Running directly on a server ###
 In order to use the script make sure you have installed python2.7
 The script uses the following modules:
 * click
