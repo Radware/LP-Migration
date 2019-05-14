@@ -35,9 +35,12 @@ The script uses the following modules:
 * uWSGI
 * Werkzeug
 
-Run flask instance <br>
+Download all git content, install required modules and run flask instance<br>
 For example : 
 ```
+# git clone https://github.com/Radware/Linkproof-to-Alteon-Migration.git
+# pip install -r requirements.txt
+# FLASK_APP=browse.py
 # python -m flask run --host=0.0.0.0 -p 3000
 ```
-And access the WebUI using the IP and port of the container (in this example port 3000)
+And access the WebUI using the IP and Flasks port  (in this example port 3000)
