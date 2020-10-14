@@ -2376,7 +2376,7 @@ def page4():
                                                 break
                                             break
                                         break
-                                    break
+                                    #break
                         else: # If the local IP is in Smart NAT static NAT or "no NAT" entry
                             if dns_farm != 'error': # If a farm is associated to the DNS entry
                                 if dns_farm in global_variables.dns_farms_nonat_lst: # If the associated farm is a no NAT farm
