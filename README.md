@@ -19,7 +19,7 @@ For example :
 ```
 # git clone https://github.com/Radware/Linkproof-to-Alteon-Migration.git
 # cd Linkproof-to-Alteon-Migration
-# docker build -t lp_mig . && docker run -dit -p 8080:3011 --name lp_mig --restart on-failure lp_mig
+# docker build -t lp_mig . && docker run -dit -p 8080:3000 --name lp_mig --restart on-failure lp_mig
 ```
 Then access the WebUI using the IP and port of the server (in this example port 8080)
 
