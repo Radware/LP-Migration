@@ -7,7 +7,7 @@ RUN apt-get -y update
 RUN apt-get install python2 curl -y
 RUN curl https://bootstrap.pypa.io/pip/2.7/get-pip.py -o get-pip.py
 RUN python2 get-pip.py
-RUN apt-get install -y python-dev build-essential nginx
+RUN apt-get install -y python2-dev build-essential nginx
 
 COPY . /app
 WORKDIR /app
