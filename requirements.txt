@@ -5,4 +5,4 @@ Jinja2==2.10.1
 MarkupSafe==1.0
 py2-ipaddress==3.4.1
 uWSGI==2.0.17
-werkzeug==0.15.3
+werkzeug==2.2.3
