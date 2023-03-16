@@ -12,7 +12,7 @@ RUN apt-get install -y python2-dev build-essential nginx
 COPY . /app
 WORKDIR /app
 
-expose 3000
+EXPOSE 3000
 
 RUN pip install -r requirements.txt
 ENV /usr/lib/python2.7 python

@@ -311,38 +311,40 @@ unequal_wls_lst = []
 #### Functions Definitions Start ####
 #####################################
 
-def find_fnc( line, first, last):
+
+def find_fnc(line, first, last):
     '''Find a string between two strings.
     Takes a string as the 1st parameter.
     The 2nd and 3rd parameters are the strings between which the search will be performed.
     '''
     try:
-        start = line.index( first ) + len( first )
-        end = line.index( last, start )
+        start = line.index(first) + len(first)
+        end = line.index(last, start)
         return line[start:end]
     except ValueError:
         return "error"
 
+
 def ipRange_fnc(start_ip, end_ip):
-   '''Find all IP addresses in a range.
-   Parameters given are the start IP and end IP.
-   All IP addresses in the range (including start and end) are appended to a list.
-   '''
-   start = list(map(int, start_ip.split(".")))
-   end = list(map(int, end_ip.split(".")))
-   temp = start
-   ip_range = []
-   
-   ip_range.append(start_ip)
-   while temp != end:
-      start[3] += 1
-      for i in (3, 2, 1):
-         if temp[i] == 256:
-            temp[i] = 0
-            temp[i-1] += 1
-      ip_range.append(".".join(map(str, temp)))    
-      
-   return ip_range
+    '''Find all IP addresses in a range.
+    Parameters given are the start IP and end IP.
+    All IP addresses in the range (including start and end) are appended to a list.
+    '''
+    start = list(map(int, start_ip.split(".")))
+    end = list(map(int, end_ip.split(".")))
+    temp = start
+    ip_range = []
+    ip_range.append(start_ip)
+    while temp != end:
+        start[3] += 1
+        for i in (3, 2, 1):
+            if temp[i] == 256:
+                temp[i] = 0
+                temp[i - 1] += 1
+        ip_range.append(".".join(map(str, temp)))
+
+    return ip_range
+
 
 def all_same(v):
     '''Checks if all values in a list are the same.
@@ -358,17 +360,18 @@ def all_same(v):
 #### Classes Definitions Start ####
 ###################################
 
-class color: # Colours Definition
-   PURPLE = '\033[95m'
-   CYAN = '\033[96m'
-   DARKCYAN = '\033[36m'
-   BLUE = '\033[94m'
-   GREEN = '\033[92m'
-   YELLOW = '\033[93m'
-   RED = '\033[91m'
-   BOLD = '\033[1m'
-   UNDERLINE = '\033[4m'
-   END = '\033[0m'
+
+class color:  # Colours Definition
+    PURPLE = '\033[95m'
+    CYAN = '\033[96m'
+    DARKCYAN = '\033[36m'
+    BLUE = '\033[94m'
+    GREEN = '\033[92m'
+    YELLOW = '\033[93m'
+    RED = '\033[91m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
+    END = '\033[0m'
 
 #################################
 #### Classes Definitions End ####
